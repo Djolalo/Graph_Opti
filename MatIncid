@@ -1,0 +1,66 @@
+typedef struct{
+    int nbSom;
+    int nbArcs;
+    int **mat;
+}MatIncid;
+
+int **allocMat(int nbSom, int nbArcs){
+    int **mat;
+    mat = malloc(nnSom*sizeof(int));
+    for(int i = 0; i<nbSom; i++){
+        mat[i] = malloc(nbArcs*sizeof(int));
+    }
+    return mat;
+}
+
+MatIncid creerMatriceVide(int nbSom, int nbArcs){
+MatIncid ma;
+
+    ma.mat = allocMat(nbSom,nbArcs);
+    ma.nbSom = nbSom;
+    ma.nbArcs = nbArcs;
+    for(int i = 0; i < nbSom; i++){
+        for(int j = 0; j < nbArcs; j++){
+            ma.mat[i][j] = 0;
+        }
+    }
+    return ma;
+}
+
+void parcoursMatIncid(MatIncid ma){
+    for(int i=0; i<ma.nbSommets;i++){
+        for(int j=0; j<ma.nbSommets;j++)printf("%d", ma.mat[i][j]);
+        puts("");
+    }
+}
+
+MatIncid creerMatriceFichier(FILE *fd){
+int nbSommets, nbArcs, j, i, tmp;
+MatIncid ma;
+    fscanf(fd,"\n#Description du graphe");
+    fscanf(fd,"\nnbSom = %d", &nbSommets);
+    fscanf(fd,"\nnbArcs = %d", &nbArcs);
+    ma = creerMatriceVide(nbSommets);
+    for(int z=0;z<nbSommets;z++){
+        fscanf(fd,"\nSom%d:",&j);
+        j--;
+        fscanf(fd,"%d", &tmp);
+        res.mat[j][0]=tmp;
+        i=1;
+        while(fscanf(fd,";%d", &tmp)>0){
+            res.mat[j][i]=tmp;
+            i++;
+        }
+    }
+    return res;
+}
+
+int main(void){
+    FILE* fd;
+    if((fd=open("incidence.txt","r"))==NULL){
+        return 1;
+    }
+    MatIncid ma = creerMatriceFichier(fd);
+    fclose(fd);
+    parcoursMatIncid(ma);
+}
