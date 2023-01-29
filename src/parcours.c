@@ -17,7 +17,7 @@ int** allouerMatrice(int nbLignes, int nbColonnes){
     return mat;
 }
 
-MatAdj creerMatriceVide(int taille){
+MatAdj creerMatriceAdjVide(int taille){
     MatAdj res;
     res.mat=allouerMatrice(taille,taille);
     res.nbSommets=taille;
@@ -35,13 +35,30 @@ void parcoursMatAdj(MatAdj g){
         puts("");
     }
 }
-
-MatAdj creerMatAdjFichier(FILE* fd){
-int nbSommets, j , i, tmp;
-MatAdj res;
+MatInc creerMatIndFichier(FILE* fd){
+int nbSommets,nbArcs, j , i, tmp; MatInc res;
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
-    res=creerMatriceVide(nbSommets);
+    fscanf(fd,"\nnbArcs = %d",&nbArcs);
+    res=creerMatriceIncVide(nbSommets, nbArcs);
+    for(int z=0;z<nbSommets;z++){
+        fscanf(fd,"\nSom%d:",&j);
+        j--;
+        fscanf(fd,"%d", &tmp);
+        res.mat[j][0]=tmp;
+        i=1;
+        while(fscanf(fd,";%d", &tmp)>0){
+            res.mat[j][i]=tmp;
+            i++;
+        }
+    }
+    return res;
+}    
+MatAdj creerMatAdjFichier(FILE* fd){
+int nbSommets, j , i, tmp; MatAdj res;
+    fscanf(fd,"\n#Description du graphe");
+    fscanf(fd,"\nnbSom = %d", &nbSommets);
+    res=creerMatriceAdjVide(nbSommets);
     for(int z=0;z<nbSommets;z++){
         fscanf(fd,"\nSom%d:",&j);
         j--;
