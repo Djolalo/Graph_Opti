@@ -1,8 +1,8 @@
 #Description du graphe
 nbSom = 4
 nbArcs = 5
-Arc_a1:1;2
-Arc_a2:2;4
-Arc_a3:2;3
-Arc_a4:4;3
-Arc_a5:3;1
+Arc1:Pred = 1; Succ = 2
+Arc2:Pred = 2; Succ = 4
+Arc3:Pred = 2; Succ = 3
+Arc4:Pred = 4; Succ = 3
+Arc5:Pred = 3; Succ = 1

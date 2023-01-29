@@ -36,7 +36,7 @@ void parcoursMatAdj(MatAdj g){
     }
 }
 MatInc creerMatIndFichier(FILE* fd){
-int nbSommets,nbArcs, j , i, tmp; MatInc res;
+int nbSommets,nbArcs, j , i, tmp; Mat res;
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     fscanf(fd,"\nnbArcs = %d",&nbArcs);

@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define PREDECESSEUR 1
+#define SUCCESSEUR -1
 typedef struct{
     int nbSom;
     int nbArcs;
@@ -6,7 +11,10 @@ typedef struct{
 
 int **allocMat(int nbSom, int nbArcs){
     int **mat;
-    mat = malloc(nnSom*sizeof(int));
+    mat = malloc(nbSom*sizeof(int*));
+    if(mat ==NULL){
+        fprintf(stderr, "Erreur");
+    }
     for(int i = 0; i<nbSom; i++){
         mat[i] = malloc(nbArcs*sizeof(int));
     }
@@ -28,36 +36,36 @@ MatIncid ma;
 }
 
 void parcoursMatIncid(MatIncid ma){
-    for(int i=0; i<ma.nbSommets;i++){
-        for(int j=0; j<ma.nbSommets;j++)printf("%d", ma.mat[i][j]);
+    for(int i=0; i<ma.nbSom;i++){
+        for(int j=0; j<ma.nbArcs;j++){
+        if(ma.mat[i][j]==-1){
+            printf("%d ", ma.mat[i][j]);
+        }
+        else{
+            printf(" %d ", ma.mat[i][j]);
+        }
+        }
         puts("");
     }
 }
 
 MatIncid creerMatriceFichier(FILE *fd){
-int nbSommets, nbArcs, j, i, tmp;
-MatIncid ma;
+int nbSommets, nbArcs, j, i, indiceDepart, indiceArrivee;
+MatIncid res;
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     fscanf(fd,"\nnbArcs = %d", &nbArcs);
-    ma = creerMatriceVide(nbSommets);
-    for(int z=0;z<nbSommets;z++){
-        fscanf(fd,"\nSom%d:",&j);
-        j--;
-        fscanf(fd,"%d", &tmp);
-        res.mat[j][0]=tmp;
-        i=1;
-        while(fscanf(fd,";%d", &tmp)>0){
-            res.mat[j][i]=tmp;
-            i++;
-        }
+    res=creerMatriceVide(nbSommets,nbArcs);
+    while(fscanf(fd,"\nArc%d:Pred = %d; Succ = %d",&j, &indiceDepart, &indiceArrivee)>0){
+        res.mat[indiceDepart-1][j-1]=PREDECESSEUR;
+        res.mat[indiceArrivee-1][j-1]=SUCCESSEUR;
     }
     return res;
 }
 
 int main(void){
     FILE* fd;
-    if((fd=open("incidence.txt","r"))==NULL){
+    if((fd=fopen("./incidence.txt","r"))==NULL){
         return 1;
     }
     MatIncid ma = creerMatriceFichier(fd);
