@@ -1,0 +1,8 @@
+#Description du graphe
+nbSom = 4
+nbArcs = 5
+Arc_a1:1;2
+Arc_a2:2;4
+Arc_a3:2;3
+Arc_a4:4;3
+Arc_a5:3;1
