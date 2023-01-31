@@ -35,41 +35,53 @@ void parcoursMatAdj(MatAdj g){
         puts("");
     }
 }
-MatInc creerMatIndFichier(FILE* fd){
-int nbSommets,nbArcs, j , i, tmp; Mat res;
-    fscanf(fd,"\n#Description du graphe");
-    fscanf(fd,"\nnbSom = %d", &nbSommets);
-    fscanf(fd,"\nnbArcs = %d",&nbArcs);
-    res=creerMatriceIncVide(nbSommets, nbArcs);
-    for(int z=0;z<nbSommets;z++){
-        fscanf(fd,"\nSom%d:",&j);
-        j--;
-        fscanf(fd,"%d", &tmp);
-        res.mat[j][0]=tmp;
-        i=1;
-        while(fscanf(fd,";%d", &tmp)>0){
-            res.mat[j][i]=tmp;
-            i++;
+
+int somSuivant(int *s , int n , int *visite){
+    while( *s< n && visite[*s]){
+        *s++;
+    }
+    return s<n; 
+}
+
+void reParcoursProfondeur(int s, int *visite, MatAdj g, int *nbSomVisite){
+    visite[s] = 1;
+    printf("je traite le %d-eme sommet \n", s+1);
+    *nbSomVisite++;
+    for(int t = s; t<g.nbSommets;t++ ){
+        if(!visite[t]&& g.mat[s][t]){
+            reParcoursProfondeur(t, visite, g,nbSomVisite);
         }
     }
-    return res;
-}    
+}
+
+void parcoursProfondeurMatAdj(int sd, MatAdj g){
+    int n = g.nbSommets, s, nbSomVisite, finParcours;
+    int *visite = malloc(sizeof(int)*n);
+    for(s = 0 ; s<n; s++){
+        visite[s] = 0;
+    }
+    s = sd;
+    nbSomVisite = 0;
+    finParcours = 0;
+    while(!finParcours){
+        reParcoursProfondeur(s, visite, g, &nbSomVisite);
+        if(!(somSuivant(&s, n ,visite))){
+            finParcours= 1;
+        }
+    }
+}
+
 MatAdj creerMatAdjFichier(FILE* fd){
-int nbSommets, j , i, tmp; MatAdj res;
+int nbSommets, j , i, tmp; MatAdj res; int garbage;
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     res=creerMatriceAdjVide(nbSommets);
-    for(int z=0;z<nbSommets;z++){
-        fscanf(fd,"\nSom%d:",&j);
-        j--;
-        fscanf(fd,"%d", &tmp);
-        res.mat[j][0]=tmp;
-        i=1;
-        while(fscanf(fd,";%d", &tmp)>0){
-            res.mat[j][i]=tmp;
-            i++;
-        }
+    while(fscanf(fd, "\nArc%d : Pred = %d Succ = %d",&garbage,&j, &i)>0){
+        i--;j--;
+        res.mat[i][j]=1;
+        res.mat[j][i]=1;
     }
+    parcoursProfondeurMatAdj(0, res);
     return res;
 }
 
