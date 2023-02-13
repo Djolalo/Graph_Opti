@@ -36,11 +36,12 @@ void parcoursMatAdj(MatAdj g){
     }
 }
 
+// faux
 int somSuivant(int *s , int n , int *visite){
     while( *s< n && visite[*s]){
-        *s++;
+        (*s)++;
     }
-    return s<n; 
+    return *s<n; 
 }
 
 void reParcoursProfondeur(int s, int *visite, MatAdj g, int *nbSomVisite){
@@ -55,8 +56,11 @@ void reParcoursProfondeur(int s, int *visite, MatAdj g, int *nbSomVisite){
 }
 
 void parcoursProfondeurMatAdj(int sd, MatAdj g){
-    int n = g.nbSommets, s, nbSomVisite, finParcours;
-    int *visite = malloc(sizeof(int)*n);
+    int n , s, nbSomVisite, finParcours;
+    int *visite;
+    
+    n = g.nbSommets;
+    visite = (int*) malloc (sizeof(int)*n);
     for(s = 0 ; s<n; s++){
         visite[s] = 0;
     }
@@ -68,6 +72,7 @@ void parcoursProfondeurMatAdj(int sd, MatAdj g){
         if(!(somSuivant(&s, n ,visite))){
             finParcours= 1;
         }
+        printf("\n Fin Parcours=%d", finParcours);
     }
 }
 
@@ -91,6 +96,6 @@ int main(void){
         return 1;
     MatAdj test= creerMatAdjFichier(fd);
     fclose(fd);
-    parcoursMatAdj(test);
+    //parcoursMatAdj(test);
     return 0;
 }
