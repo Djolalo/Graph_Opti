@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "../include/file.h"
 typedef struct {
     int nbSommets;
     int **mat;
@@ -10,7 +10,7 @@ int** allouerMatrice(int nbLignes, int nbColonnes){
     int **mat;
     mat= malloc(sizeof(int*)*nbLignes);
     if(mat==NULL){
-        fprintf(stderr, "Erreur");
+        perror("Erreur");
     }
     for(int i =0; i<nbLignes;i++){
         mat[i]=malloc(sizeof(int)*nbColonnes);
@@ -125,6 +125,66 @@ void parcoursProfondeurMatAdj(int sd, MatAdj g){
 
     }
 }
+int prochainSuccesseurdeU(int *col, MatAdj g, int ligne ){
+    for(*col; (*col)<g.nbSommets;(*col)++){
+        if(g.mat[ligne][(*col)]){
+            goto fincorrecte; 
+        }
+    }
+    return (*col)<g.nbSommets;
+    fincorrecte:
+        return 1; 
+}
+void itParcoursLargeurMatAdj(int s, int *visite, MatAdj g, int *nbSomVisite){
+    File f = initFile();
+    puts("j'arrive jusque là chef");
+    f= enfiler(s,f);
+    while(!estVideFile(f)){
+        puts("toujours là");
+        int u = SommetFile(f);
+        f = defiler(f);
+        affichetab(visite,g);
+        printf("u = %d\n", u);
+        if(visite[u]==0){
+            visite[u]=1;
+            puts("je suis là");            
+            (*nbSomVisite)++;
+            int *t=0;
+            while(prochainSuccesseurdeU(t, g, u)==1){                
+                if(!visite[*t]){
+                    f=enfiler(*t,f);
+                }
+            }
+        }
+        puts("je boucle");
+    }
+}
+
+void parcoursLargeurMatAdj(int sd, MatAdj g){
+    // Phase d'initialisation
+    int n = g.nbSommets;
+    int *visite;
+    visite = (int*)malloc(sizeof(int)*n);
+    for(int s = 0; s < n; s++){
+        visite[s] = 0;
+    }
+    
+    int s = sd;
+    int nbSomVisite = 0;
+    int finParcours = 0;
+    
+    // Phase de traitement
+    while(finParcours == 0){
+        itParcoursLargeurMatAdj(s,visite,g,&nbSomVisite);
+        if(nbSomVisite < n){
+            s = somSuivant(s,n,visite);
+        }else{
+            finParcours = 1;
+        }
+    }
+}
+
+
 
 MatAdj creerMatAdjFichier(FILE* fd){
 int nbSommets, j , i, tmp; MatAdj res; int garbage;
@@ -136,13 +196,13 @@ int nbSommets, j , i, tmp; MatAdj res; int garbage;
         // res.mat[i][j]=1;
         res.mat[j][i]=1;
     }
-    parcoursProfondeurMatAdj(0, res);
+    parcoursLargeurMatAdj(0, res);
     return res;
 }
 
 int main(void){
     FILE* fd;
-    if((fd=fopen("../adjacence.txt","r"))==NULL)
+    if((fd=fopen("adjacence.txt","r"))==NULL)
         return 1;
     MatAdj test= creerMatAdjFichier(fd);
     fclose(fd);
