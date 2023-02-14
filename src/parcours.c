@@ -28,7 +28,7 @@ MatAdj creerMatriceAdjVide(int taille){
     }
     return res;
 }
-/* salut */
+
 void parcoursMatAdj(MatAdj g){
     for(int i=0; i<g.nbSommets;i++){
         for(int j=0; j<g.nbSommets;j++)printf("%d", g.mat[i][j]);
