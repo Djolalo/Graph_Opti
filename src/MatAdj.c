@@ -127,6 +127,7 @@ void parcoursProfondeurMatAdj(int sd, MatAdj g){
 }
 int prochainSuccesseurdeU(int *col, MatAdj g, int ligne ){
     for(*col; (*col)<g.nbSommets;(*col)++){
+        printf("donnee de g[%d][%d] = %d",ligne,*col,g.mat[ligne][(*col)]);
         if(g.mat[ligne][(*col)]){
             goto fincorrecte; 
         }
@@ -136,28 +137,25 @@ int prochainSuccesseurdeU(int *col, MatAdj g, int ligne ){
         return 1; 
 }
 void itParcoursLargeurMatAdj(int s, int *visite, MatAdj g, int *nbSomVisite){
+int n;
     File f = initFile();
-    puts("j'arrive jusque là chef");
     f= enfiler(s,f);
+    n=g.nbSommets;
     while(!estVideFile(f)){
-        puts("toujours là");
         int u = SommetFile(f);
         f = defiler(f);
-        affichetab(visite,g);
-        printf("u = %d\n", u);
+        printf("u = %d\n", u+1);
         if(visite[u]==0){
-            visite[u]=1;
-            puts("je suis là");            
+            visite[u]=1;            
             (*nbSomVisite)++;
-            int *t=0;
-            while(prochainSuccesseurdeU(t, g, u)==1){                
-                if(!visite[*t]){
-                    f=enfiler(*t,f);
+            int t=0;
+            for(t=0; t<n; t++){
+                if(g.mat[u][t] && !visite[t]){
+                    f=enfiler(t,f);
                 }
             }
+            }
         }
-        puts("je boucle");
-    }
 }
 
 void parcoursLargeurMatAdj(int sd, MatAdj g){
