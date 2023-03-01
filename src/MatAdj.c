@@ -144,16 +144,17 @@ int n;
     while(!estVideFile(f)){
         int u = SommetFile(f);
         f = defiler(f);
-        printf("u = %d\n", u+1);
+        //On visite tous les successeurs de u.
         if(visite[u]==0){
             visite[u]=1;            
             (*nbSomVisite)++;
             int t=0;
             for(t=0; t<n; t++){
-                if(g.mat[u][t] && !visite[t]){
+                if(g.mat[u][t] && !visite[t] && !estPresent(t,f)){
                     f=enfiler(t,f);
                 }
             }
+            afficheFile(f);
             }
         }
 }

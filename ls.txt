@@ -1,0 +1,9 @@
+#Description du graphe
+nbSom = 6
+Arc1 : Pred = 1 Succ = 5
+Arc2 : Pred = 3 Succ = 6
+Arc3 : Pred = 4 Succ = 2
+Arc4 : Pred = 4 Succ = 4
+Arc5 : Pred = 2 Succ = 5
+Arc6 : Pred = 1 Succ = 6
+Arc7 : Pred = 1 Succ = 2

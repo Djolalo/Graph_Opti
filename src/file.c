@@ -53,12 +53,13 @@ File as;
     free(as);
     return f;
 }
-int SommetFile(File f){ File tmp = dernier(f); return tmp->donnee;}
+//returns queue first in or -1 in case of errors
+int SommetFile(File f){ return (f==NULL)? -1: f->donnee;}
 
 void afficheFile(File f){
     if(!estVideFile(f)){
         do{
-            printf("%d",f->donnee);
+            printf("%d",f->donnee+1);
             f = suivant(f);
             if(estVideFile(f)){
                 printf("\n");
@@ -68,3 +69,4 @@ void afficheFile(File f){
         }while(!estVideFile(f));
     }
 }
+int estPresent(int chercher,File f){if(!estVideFile(f)) do{ if(f->donnee == chercher) return 1; f=f->suivant; }while(!estVideFile(f));return 0;}

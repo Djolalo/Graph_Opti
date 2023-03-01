@@ -27,4 +27,6 @@ File enfiler(int elt, File f);
 
 
 int SommetFile(File f);
+void afficheFile(File f);
+int estPresent(int chercher,File f);
 #endif
