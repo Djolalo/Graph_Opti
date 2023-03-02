@@ -15,7 +15,7 @@ ListeAdjSuccPred creerListeAdjSuccPredVide(int nbSommets){
     }
 
     lasp.nbSom = nbSommets;
-    lasp.tabAdjSuccPred = lsp;
+    lasp.tabAdjSuccPred = &lsp;
 
     return lasp;
 }
@@ -23,7 +23,7 @@ ListeAdjSuccPred creerListeAdjSuccPredVide(int nbSommets){
 ListeAdjSuccPred creerListeAdjSuccPredMatAdj(MatAdj ma){
     int i, j;
     ListeAdjSuccPred res = creerListeAdjSuccPredVide(ma.nbSommets);
-    ListeSuccPred lsp = res.tabAdjSuccPred;
+    ListeSuccPred lsp = *(res.tabAdjSuccPred);
     for(i = 0; i < res.nbSom; i++){
         for(j = 0; j < res.nbSom; j++){
             if(ma.mat[i][j] == 1){
@@ -32,7 +32,7 @@ ListeAdjSuccPred creerListeAdjSuccPredMatAdj(MatAdj ma){
             }
         }
     }
-    affichetab(lsp->lPred,res.nbSom);
-    affichetab(lsp->lSucc,res.nbSom);
+    afficheListe(*(lsp->lPred));
+    afficheListe(*(lsp->lSucc));
     return res;
 }

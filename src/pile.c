@@ -1,6 +1,6 @@
 #include "../include/pile.h"
 
-Pile suivant(Pile p){
+Pile suivantP(Pile p){
     return p->suivant;
 }
 
@@ -34,7 +34,7 @@ Pile depiler(Pile p){
 Pile as;
 
     as = p;
-    p = suivant(p);
+    p = suivantP(p);
     free(as);
     return p;
 }
@@ -47,7 +47,7 @@ void affichePile(Pile p){
     if(!estVidePile(p)){
         do{
             printf("%d",p->elt);
-            p = suivant(p);
+            p = suivantP(p);
             if(estVidePile(p)){
                 printf("\n");
             }else{

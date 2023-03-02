@@ -1,33 +1,39 @@
-CC = gcc
+# @authors: Djilali BAHOUS, Matthieu VAYSSE
+# @version: 1.0.0
 
-SRC_DIR = src
-BUILD_DIR = build
+# config
+CC := gcc
+SRC_DIR := src
+BUILD_DIR := build
 
-SRCS = $(filter-out $(SRC_DIR)/main.c, $(wildcard $(SRC_DIR)/*.c))
-LISTE_SRCS = $(filter $(SRC_DIR)/liste%, $(SRCS))
-FILE_SRCS = $(filter $(SRC_DIR)/file.c, $(SRCS))
+# SRCS = $(filter-out $(SRC_DIR)/main.c, $(wildcard $(SRC_DIR)/*.c))
+# LISTE_SRCS = $(filter $(SRC_DIR)/liste%, $(SRCS))
+# FILE_SRCS = $(filter $(SRC_DIR)/file.c, $(SRCS))
 
-# Define the order in which source files should be compiled
-ORDERED_SRCS = $(SRC_DIR)/MatAdj.c $(FILE_SRCS) $(LISTE_SRCS) $(filter-out $(FILE_SRCS) $(LISTE_SRCS), $(SRCS))
+# define the C source files
+SOURCES := $(wildcard $(SRC_DIR)/*.c)
 
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(ORDERED_SRCS))
+# define the C object files 
+OBJECTS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
 
-TARGET = my_program
+all: $(OBJECTS)
+	@$(CC) $(OBJECTS) -o $(BUILD_DIR)/main
+	@echo "✅ Build complete 🥳"
 
-$(TARGET): $(OBJS)
-	$(CC) -o $@ $^
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c clean create-build-dir
+	@$(CC) -c $< -o $@
 
-libs: $(OBJS)
-	@echo "Libraries compiled !"
+$(BUILD_DIR)/main.o: $(SRC_DIR)/main.c
+	@$(CC) -c $< -o $@
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) -c -o $@ $<
-
-$(BUILD_DIR)/MatAdj.o: $(SRC_DIR)/MatAdj.c $(SRC_DIR)/file.c
-	$(CC) -c -o $@ $(SRC_DIR)/MatAdj.c
-
-$(BUILD_DIR)/listeAdj%.o: $(SRC_DIR)/liste.c $(SRC_DIR)/file.c
-	$(CC) -c -o $@ $(SRC_DIR)/liste.c $(BUILD_DIR)/MatAdj.o
+create-build-dir:
+	@mkdir build
+	@echo "✅ Created build directory"
 
 clean:
-	rm -rf $(OBJS)
+	@rm -rf $(BUILD_DIR)
+	@echo "✅ Cleaned build and output directories 🗑️"
+
+run:
+	@echo "🚀 executing main programm"
+	@./build/main

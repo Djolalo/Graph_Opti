@@ -12,7 +12,7 @@ typedef struct pile {
     struct pile *suivant;
 }*Pile;
 
-Pile suivant(Pile p);
+Pile suivantP(Pile p);
 
 bool estVidePile(Pile p);
 
