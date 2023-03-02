@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#define PREDECESSEUR 1
-#define SUCCESSEUR -1
-typedef struct{
-    int nbSom;
-    int nbArcs;
-    int **mat;
-}MatIncid;
+#include "../include/MatIncid.h"
 
 int **allocMat(int nbSom, int nbArcs){
     int **mat;
@@ -35,7 +26,7 @@ MatIncid ma;
     return ma;
 }
 
-void parcoursMatIncid(MatIncid ma){
+void afficheMatIncid(MatIncid ma){
     for(int i=0; i<ma.nbSom;i++){
         for(int j=0; j<ma.nbArcs;j++){
         if(ma.mat[i][j]==-1){
@@ -49,7 +40,7 @@ void parcoursMatIncid(MatIncid ma){
     }
 }
 
-MatIncid creerMatriceFichier(FILE *fd){
+MatIncid creerMatriceIncidFichier(FILE *fd){
 int nbSommets, nbArcs, j, i, indiceDepart, indiceArrivee;
 MatIncid res;
     fscanf(fd,"\n#Description du graphe");
@@ -63,12 +54,3 @@ MatIncid res;
     return res;
 }
 
-int main(void){
-    FILE* fd;
-    if((fd=fopen("./incidence.txt","r"))==NULL){
-        return 1;
-    }
-    MatIncid ma = creerMatriceFichier(fd);
-    fclose(fd);
-    parcoursMatIncid(ma);
-}

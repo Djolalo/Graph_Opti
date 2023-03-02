@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "../include/file.h"
-typedef struct {
-    int nbSommets;
-    int **mat;
-}MatAdj;
+#include "../include/MatAdj.h"
 
 int** allouerMatrice(int nbLignes, int nbColonnes){
     int **mat;
@@ -37,42 +31,6 @@ void afficheMatAdj(MatAdj g){
     }
 }
 
-/* 
-
-                    VERSION DJILALI
-
-void reParcoursProfondeur(int s, int *visite, MatAdj g, int *nbSomVisite){
-    visite[s] = 1;
-    printf("je traite le %d-eme sommet \n", s+1);
-    *nbSomVisite++;
-    for(int t = s; t<g.nbSommets;t++ ){
-        if(!visite[t]&& g.mat[s][t]){
-            reParcoursProfondeur(t, visite, g,nbSomVisite);
-        }
-    }
-}
-
-void parcoursProfondeurMatAdj(int sd, MatAdj g){
-    int n , s, nbSomVisite, finParcours;
-    int *visite;
-    
-    n = g.nbSommets;
-    visite = (int*) malloc (sizeof(int)*n);
-    for(s = 0 ; s<n; s++){
-        visite[s] = 0;
-    }
-    s = sd;
-    nbSomVisite = 0;
-    finParcours = 0;
-    while(!finParcours){
-        reParcoursProfondeur(s, visite, g, &nbSomVisite);
-        if(!(somSuivant(&s, n ,visite))){
-            finParcours= 1;
-        }
-        printf("\n Fin Parcours=%d", finParcours);
-    }
-}*/
-
 int somSuivant(int s , int n , int *visite){
     while( s < n && visite[s]){
         s++;
@@ -80,17 +38,11 @@ int somSuivant(int s , int n , int *visite){
     return s; 
 }
 
-void affichetab(int *tab, MatAdj g){
-    for(int i = 0; i < g.nbSommets;i++){
-        printf("%d,",tab[i]);
-    }puts("");
-}
-
 void reParcoursProfondeurMatAdj(int s, int *visite, MatAdj g, int *nbSomVisite){
     visite[s] = 1;
     int j;
     printf("Sommet = %d\n",s+1);
-    affichetab(visite,g);
+    affichetab(visite,g.nbSommets);
     (*nbSomVisite)++;
     for(int t = 0; t < g.nbSommets; t++){
         if(visite[t] == 0 && g.mat[s][t] == 1){
@@ -183,8 +135,6 @@ void parcoursLargeurMatAdj(int sd, MatAdj g){
     }
 }
 
-
-
 MatAdj creerMatAdjFichier(FILE* fd){
 int nbSommets, j , i, tmp; MatAdj res; int garbage;
     fscanf(fd,"\n#Description du graphe");
@@ -197,14 +147,4 @@ int nbSommets, j , i, tmp; MatAdj res; int garbage;
     }
     parcoursLargeurMatAdj(0, res);
     return res;
-}
-
-int main(void){
-    FILE* fd;
-    if((fd=fopen("adjacence.txt","r"))==NULL)
-        return 1;
-    MatAdj test= creerMatAdjFichier(fd);
-    fclose(fd);
-    afficheMatAdj(test);
-    return 0;
 }

@@ -1,12 +1,5 @@
-/**
- * DOC ICI
- * 
- * @author
- * @version
- * @since 
-*/
-#ifndef __PILE__
-#define __PILE__
+#ifndef __PILE_H_
+#define __PILE_H_
 
 #include <stdio.h>
 #include <stdbool.h>

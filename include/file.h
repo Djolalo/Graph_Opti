@@ -4,10 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-typedef struct cellule{
+typedef struct entite{
     int donnee;
-    struct cellule *suivant;
+    struct entite *suivant;
 }*File;
 
 File initFile();
@@ -22,11 +21,12 @@ File dernier(File f);
 
 File defiler(File f);
 
-
 File enfiler(int elt, File f);
 
-
 int SommetFile(File f);
+
 void afficheFile(File f);
+
 int estPresent(int chercher,File f);
+
 #endif

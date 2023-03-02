@@ -1,18 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct{
-    int nbSom;
-    int nbArcs; 
-    int *fs;
-    int *aps;
-}FileSucc;
-
-void affichetab(int *tab, int nb){
-    for(int i = 0; i < nb;i++){
-        printf("%d|",tab[i]);
-    }puts("");
-}
+#include "../include/fileSucc.h"
 
 FileSucc creerFileSuccVide(int t, int a){
 FileSucc f;
@@ -56,17 +42,5 @@ FileSucc res; int nbSommets; int nbArcs; int i; int j; int garbage;
         while(z<res.aps[i]&&res.fs[z]!=0){z++;}
         res.fs[z]=j;
     }
-    affichetab(res.fs, res.nbArcs+1);
-    affichetab(res.aps, res.nbSom+1);
+    return res;
 }
-
-int main(void){
-    FILE *fd;
-    if((fd=fopen("fs.txt","r"))==NULL)
-        return 1;
-    FileSucc f = creerFileSuccFichier(fd);
-    return 0;
-}
-
-
-
