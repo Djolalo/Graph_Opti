@@ -23,7 +23,6 @@ FileSucc res; int nbSommets; int nbArcs; int i; int j; int garbage;
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     fscanf(fd,"\nnbArcs = %d", &nbArcs);
     res = creerFileSuccVide(nbSommets,nbArcs);
-    res.aps[0]=0;
     while(fscanf(fd,"\nArc%d : Pred = %d Succ = %d", &garbage, &i, &j)>0){
         res.aps[i]++;
     }
