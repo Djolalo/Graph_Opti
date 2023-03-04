@@ -7,9 +7,9 @@
 #include "tabs.h"
 
 typedef struct lsp{
-    Liste *lSucc;
-    Liste *lPred;
-}*ListeSuccPred;
+    Liste lSucc;
+    Liste lPred;
+}ListeSuccPred;
 
 typedef struct lasp{
     int nbSom;

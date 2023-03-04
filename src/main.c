@@ -21,7 +21,7 @@ ListeAdj transfoMatAdjListeAdj(MatAdj ma){
 FileSucc transfoMatAdjListeSucc(MatAdj ma){
     int i, j, z;
     int nbSommets = ma.nbSommets;
-    // On compte le nombre d'arcs pour la constrcution de la fileSucc
+    // On compte le nombre d'arcs pour la construction de la fileSucc
     int nbArcs = 0;
     for(i = 0; i < nbSommets; i++){
         for(j = 0; j < nbSommets; j++){
@@ -36,7 +36,7 @@ FileSucc transfoMatAdjListeSucc(MatAdj ma){
     for(i = 0; i < nbSommets; i++){
         for(j = 0; j < nbSommets; j++){
             if(ma.mat[i][j] == 1){
-                res.aps[i]++;
+                res.aps[i+1]++;
             }
         }
     }
@@ -64,23 +64,22 @@ FileSucc transfoMatAdjListeSucc(MatAdj ma){
 
 
 int main(void){
-
     FILE *fd;
     if((fd = fopen("adjacence.txt","r")) == NULL){
         return 1;
     }
-    fclose(fd);
     ListeAdjSuccPred lasp; MatAdj ma; ListeAdj la; FileSucc res;
     ma = creerMatAdjFichier(fd);
-
+    fclose(fd);
     la= transfoMatAdjListeAdj(ma);
     afficheListeAdj(la);
-    
+    puts("on est passé la liste d'adjacence");
     res = transfoMatAdjListeSucc(ma);
+    puts("on passe à la listsuccpred");
     affichetab(res.fs, res.nbArcs+1);
     affichetab(res.aps, res.nbSom+1);
-
+  
     lasp = creerListeAdjSuccPredMatAdj(ma);
-    
+    puts("on a fait la listeadjsuccpred");
     return 0;
 }

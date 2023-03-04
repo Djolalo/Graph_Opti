@@ -4,35 +4,31 @@
 ListeAdjSuccPred creerListeAdjSuccPredVide(int nbSommets){
     int i;
     ListeAdjSuccPred lasp;
-    ListeSuccPred lsp;
-
-    lsp->lPred = malloc(sizeof(Liste)*nbSommets);
-    lsp->lSucc = malloc(sizeof(Liste)*nbSommets);
-
+    lasp.tabAdjSuccPred=malloc(nbSommets * sizeof(ListeSuccPred));
     for(i = 0; i < nbSommets; i++){
-        lsp->lPred[i] = NULL;
-        lsp->lSucc[i] = NULL;
+        lasp.tabAdjSuccPred[i].lPred = NULL;
+        lasp.tabAdjSuccPred[i].lSucc = NULL;
     }
-
-    lasp.nbSom = nbSommets;
-    lasp.tabAdjSuccPred = &lsp;
-
     return lasp;
 }
 
 ListeAdjSuccPred creerListeAdjSuccPredMatAdj(MatAdj ma){
     int i, j;
     ListeAdjSuccPred res = creerListeAdjSuccPredVide(ma.nbSommets);
-    ListeSuccPred lsp = *(res.tabAdjSuccPred);
-    for(i = 0; i < res.nbSom; i++){
-        for(j = 0; j < res.nbSom; j++){
+    res.nbSom = ma.nbSommets;
+    for(i = 0; i < ma.nbSommets; i++){
+        for(j = 0; j < ma.nbSommets; j++){
             if(ma.mat[i][j] == 1){
-                lsp->lSucc[i] = inserQueue(lsp->lSucc[i],j);
-                lsp->lPred[j] = inserQueue(lsp->lPred[j],i);
+                res.tabAdjSuccPred[i].lSucc = inserQueue(res.tabAdjSuccPred[i].lSucc,j);
+                res.tabAdjSuccPred[j].lPred = inserQueue(res.tabAdjSuccPred[j].lPred,i);
             }
         }
     }
-    afficheListe(*(lsp->lPred));
-    afficheListe(*(lsp->lSucc));
+    for(int i = 0 ;  i<res.nbSom; i++){
+        printf("Le sommet %d a pour prédécesseurs : ",i+1);
+        afficheListe(res.tabAdjSuccPred[i].lPred);        
+        printf(" et comme successeurs : ");
+        afficheListe(res.tabAdjSuccPred[i].lSucc);
+    }
     return res;
 }
