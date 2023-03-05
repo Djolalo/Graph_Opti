@@ -63,15 +63,66 @@ FileSucc transfoMatAdjListeSucc(MatAdj ma){
     return res;
 }
 
+MatAdj carreMatAdj(MatAdj ma){
+MatAdj res;
+int u;
+
+    res = creerMatriceAdjVide(ma.nbSommets);
+    for(int i = 0; i < res.nbSommets; i++){
+        for(int j = 0; j < res.nbSommets; j++){
+            u = 0;
+            while(u < res.nbSommets && (ma.mat[i][u]*ma.mat[u][j]) == 0){
+                u++;
+            }
+            if(u < res.nbSommets){
+                res.mat[i][j] = 1;
+            }else{
+                res.mat[i][j] = 0;
+            }
+        }
+    }
+    return res;
+}
+
+ListeAdj carreListeAdj(ListeAdj l){
+ListeAdj res;
+Liste ls, ll, lu;
+int i,k,som;
+
+    res = creerListeAdjVide(l.nbSom);
+    for(i = 0; i < res.nbSom; i++){
+        ls = l.tabAdj[i];
+        ll = NULL;
+        while(!estVide(ls)){
+            som = ls->sommet;
+            printf("Sommet 1 : %d\n",som);
+            ls = ls->suiv;
+            lu = l.tabAdj[som-1];
+            while(!estVide(lu)){
+                k = lu->sommet;
+                printf("Sommet 2 : %d\n",k);
+                lu = lu->suiv;
+                ll = inserQueue(ll,k);
+            }
+        }
+        res.tabAdj[i] = ll;
+        printf("Insertion...\n");
+    }
+    return res;
+}
 
 
 int main(void){
     FILE *fd;
-    if((fd = fopen("fs.txt","r")) == NULL){
+    if((fd = fopen("adjacence.txt","r")) == NULL){
         return 1;
     }
 
-    MatIncidColCol mb = creerMatIncidColColFichier(fd);
+    ListeAdj la = creerListeAdjFichier(fd);
+    afficheListeAdj(la);
+    puts("");
+    ListeAdj res = carreListeAdj(la);
+    afficheListeAdj(res);
 
     fclose(fd);
     return 0;
