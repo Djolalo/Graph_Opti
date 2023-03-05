@@ -3,6 +3,8 @@
 #include "../include/fileSucc.h"
 #include "../include/tabs.h"
 #include "../include/listeAdjPreSucc.h"
+#include "../include/MatIncidColCol.h"
+#include "../include/MatIncidLigLig.h"
 
 ListeAdj transfoMatAdjListeAdj(MatAdj ma){
     int i, j;
@@ -65,21 +67,12 @@ FileSucc transfoMatAdjListeSucc(MatAdj ma){
 
 int main(void){
     FILE *fd;
-    if((fd = fopen("adjacence.txt","r")) == NULL){
+    if((fd = fopen("fs.txt","r")) == NULL){
         return 1;
     }
-    ListeAdjSuccPred lasp; MatAdj ma; ListeAdj la; FileSucc res;
-    ma = creerMatAdjFichier(fd);
+
+    MatIncidColCol mb = creerMatIncidColColFichier(fd);
+
     fclose(fd);
-    la= transfoMatAdjListeAdj(ma);
-    afficheListeAdj(la);
-    puts("on est passé la liste d'adjacence");
-    res = transfoMatAdjListeSucc(ma);
-    puts("on passe à la listsuccpred");
-    affichetab(res.fs, res.nbArcs+1);
-    affichetab(res.aps, res.nbSom+1);
-  
-    lasp = creerListeAdjSuccPredMatAdj(ma);
-    puts("on a fait la listeadjsuccpred");
     return 0;
 }
