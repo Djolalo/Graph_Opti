@@ -30,4 +30,6 @@ int prochainSuccesseurdeU(int *col, MatAdj g, int ligne );
 void parcoursLargeurMatAdj(int sd, MatAdj g);
 
 MatAdj creerMatAdjFichier(FILE* fd);
+
+int estSansBoucle(MatAdj g);
 #endif

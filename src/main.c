@@ -113,17 +113,18 @@ int i,k,som;
 
 
 int main(void){
-    FILE *fd;
+    FILE *fd; FILE *efd;
     if((fd = fopen("adjacence.txt","r")) == NULL){
         return 1;
     }
-
     ListeAdj la = creerListeAdjFichier(fd);
-    afficheListeAdj(la);
-    puts("");
-    ListeAdj res = carreListeAdj(la);
-    afficheListeAdj(res);
-
+    MatAdj g = creerMatAdjFichier(fd);
     fclose(fd);
+    //afficheListeAdj(la);
+    puts("matadj créée");
+    printf("%d\n", estSansBoucle(g));
+    //ListeAdj res = carreListeAdj(la);
+    //afficheListeAdj(res);
+
     return 0;
 }

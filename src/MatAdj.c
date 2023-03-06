@@ -150,3 +150,10 @@ int nbSommets, j , i, tmp; MatAdj res; int garbage;
     parcoursLargeurMatAdj(0, res);
     return res;
 }
+
+int estSansBoucle(MatAdj g){
+    int n; int j=0; int i=0;
+    n = g.nbSommets;
+    while((i<n) && (!g.mat[i][i]))i++;
+    return i==n;
+}
