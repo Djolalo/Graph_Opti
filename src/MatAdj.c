@@ -142,7 +142,9 @@ int nbSommets, j , i, tmp; MatAdj res; int garbage;
     res=creerMatriceAdjVide(nbSommets);
     while(fscanf(fd, "\nArc%d : Pred = %d Succ = %d",&garbage,&j, &i)>0){
         i--;j--;
-        // res.mat[i][j]=1;
+        /**
+         * la ligne est à décommenter dans le cas d'un graphe orienté.
+         * */// res.mat[i][j]=1;
         res.mat[j][i]=1;
     }
     parcoursLargeurMatAdj(0, res);
