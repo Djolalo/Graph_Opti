@@ -118,13 +118,13 @@ int main(void){
         return 1;
     }
     ListeAdj la = creerListeAdjFichier(fd);
-    MatAdj g = creerMatAdjFichier(fd);
+    afficheListeAdj(la);
+    parcoursProfondeurListeAdj(la,1);
+
     fclose(fd);
-    //afficheListeAdj(la);
-    puts("matadj créée");
-    printf("%d\n", estSansBoucle(g));
-    //ListeAdj res = carreListeAdj(la);
-    //afficheListeAdj(res);
+    // MatAdj g = creerMatAdjFichier(fd);
+    // puts("matadj créée");
+    // printf("%d\n", estSansBoucle(g));
 
     return 0;
 }
