@@ -113,18 +113,16 @@ int i,k,som;
 
 
 int main(void){
-    FILE *fd; FILE *efd;
+    FILE *fd;
     if((fd = fopen("adjacence.txt","r")) == NULL){
         return 1;
     }
     ListeAdj la = creerListeAdjFichier(fd);
     MatAdj g = creerMatAdjFichier(fd);
     fclose(fd);
-    //afficheListeAdj(la);
-    puts("matadj créée");
-    printf("%d\n", estSansBoucle(g));
-    //ListeAdj res = carreListeAdj(la);
-    //afficheListeAdj(res);
-
+    estSansBoucle(g)?puts("le graphe ne comporte pas de boucle")  :puts("le graphe comporte une boucle");  
+    parcoursProfondeurMatAdj(0,g);
+    puts("______________________________________________");
+    determinerComposantesConnexes(0, g);
     return 0;
 }

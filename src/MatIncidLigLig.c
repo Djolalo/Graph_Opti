@@ -2,7 +2,7 @@
 
 MatIncidLigLig creerMatIncidLigLigVide(int nbSommets, int nbArcs){
 MatIncidLigLig ma;
-
+    
     ma.nbSom = nbSommets;
     ma.nbArcs = nbArcs;
     ma.fs = malloc(sizeof(int)*nbArcs + 1);
@@ -21,7 +21,7 @@ MatIncidLigLig ma;
 MatIncidLigLig creerMatIncidLigLigFichier(FILE *fd){
 MatIncidLigLig res;
 int nbSommets, nbArcs, i, j, garbage;
-
+    fseek(fd, SEEK_SET, 0);
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     fscanf(fd,"\nnbArcs = %d",&nbArcs);

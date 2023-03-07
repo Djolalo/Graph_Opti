@@ -13,6 +13,8 @@ typedef struct {
 
 int** allouerMatrice(int nbLignes, int nbColonnes);
 
+int estVideMatAdj(MatAdj g);
+
 MatAdj creerMatriceAdjVide(int taille);
 
 void afficheMatAdj(MatAdj g);
@@ -32,4 +34,6 @@ void parcoursLargeurMatAdj(int sd, MatAdj g);
 MatAdj creerMatAdjFichier(FILE* fd);
 
 int estSansBoucle(MatAdj g);
+MatAdj reParcoursProfondeurMatAdjConnexes(int s, int *visite, MatAdj g,MatAdj *ger ,int *nbSomVisite);
+void determinerComposantesConnexes(int sd, MatAdj g);
 #endif

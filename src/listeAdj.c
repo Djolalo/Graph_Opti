@@ -19,6 +19,7 @@ void afficheListeAdj(ListeAdj l){
 
 ListeAdj creerListeAdjFichier(FILE *fd){
 int nbSommets; ListeAdj res; int i; int j; int garbage;
+    fseek(fd,SEEK_SET,0);
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     res = creerListeAdjVide(nbSommets);

@@ -43,6 +43,7 @@ void afficheMatIncid(MatIncid ma){
 MatIncid creerMatriceIncidFichier(FILE *fd){
 int nbSommets, nbArcs, j, i, indiceDepart, indiceArrivee;
 MatIncid res;
+    fseek(fd, SEEK_SET, 0);
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     fscanf(fd,"\nnbArcs = %d", &nbArcs);

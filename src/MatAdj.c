@@ -23,7 +23,16 @@ MatAdj creerMatriceAdjVide(int taille){
     }
     return res;
 }
-
+int estVideMatAdj(MatAdj g){
+    for(int i =0; i<g.nbSommets; i++){
+        for(int j=0; j<g.nbSommets; j++){
+            if(g.mat[i][j]==1){
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
 void afficheMatAdj(MatAdj g){
     for(int i=0; i<g.nbSommets;i++){
         for(int j=0; j<g.nbSommets;j++)printf("%d", g.mat[i][j]);
@@ -137,6 +146,7 @@ void parcoursLargeurMatAdj(int sd, MatAdj g){
 
 MatAdj creerMatAdjFichier(FILE* fd){
 int nbSommets, j , i, tmp; MatAdj res; int garbage;
+    fseek(fd,SEEK_SET,0);
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     res=creerMatriceAdjVide(nbSommets);
@@ -154,6 +164,81 @@ int nbSommets, j , i, tmp; MatAdj res; int garbage;
 int estSansBoucle(MatAdj g){
     int n; int j=0; int i=0;
     n = g.nbSommets;
-    while((i<n) && (!g.mat[i][i]))i++;
+    while((i<n) && (!g.mat[i][i])){printf("la matrice a cette case %d\n",g.mat[i][i]);i++;};
     return i==n;
+}
+
+MatAdj reParcoursProfondeurMatAdjConnexes(int s, int *visite, MatAdj g,MatAdj *ger ,int *nbSomVisite){
+    visite[s] = 1;
+    int j;
+    printf("Sommet = %d\n",s+1);
+    affichetab(visite,g.nbSommets);
+    (*nbSomVisite)++;
+    for(int t = 0; t < g.nbSommets; t++){
+        if(visite[t] == 0 && g.mat[s][t] == 1){
+            if(ger==NULL){
+                ger=malloc(sizeof(MatAdj));
+                *(ger)= creerMatriceAdjVide(g.nbSommets);
+                ger->mat[s][t]=1;
+                *(ger)= reParcoursProfondeurMatAdjConnexes(t,visite,g,ger ,nbSomVisite);
+            }
+            else{
+                ger->mat[s][t]=1;
+                *(ger) =reParcoursProfondeurMatAdjConnexes(t,visite,g,ger,nbSomVisite);
+            }
+        }
+        if(visite[t] ==1 && g.mat[s][t]==1 && s==t){
+            if(ger==NULL){
+                ger=malloc(sizeof(MatAdj));
+                *(ger)= creerMatriceAdjVide(g.nbSommets);
+                ger->mat[s][t]=1;
+            }
+            else{
+                ger->mat[s][t]=1;
+            }
+        }
+    }
+    if(ger == NULL){ 
+        ger = malloc(sizeof(MatAdj)), 
+        (*ger)=creerMatriceAdjVide(g.nbSommets);
+    }
+    return *ger;
+}
+
+void determinerComposantesConnexes(int sd, MatAdj g){
+
+    // Phase d'initialisation
+    int j;
+    int n = g.nbSommets;
+    int *visite;
+    visite = (int*)malloc(sizeof(int)*n);
+    for(int s = 0; s < n; s++){
+        visite[s] = 0;
+    }
+
+    int s = sd;
+    int nbSomVisite = 0;
+    int finParcours = 0;
+    int *pereConnexes=malloc(sizeof(int)*n);
+    MatAdj *ret= malloc(n*sizeof(MatAdj));
+    for(int i =0; i<n;i++){
+        ret[i]= creerMatriceAdjVide(n);
+    } int i =0;
+    for(int z = 0 ;z<n;z++){
+        pereConnexes[z] = 0;
+    }
+    // Phase de traitement
+    while(finParcours == 0){
+        ret[i]=reParcoursProfondeurMatAdjConnexes(s,visite,g,NULL,&nbSomVisite);        
+        pereConnexes[i]=1;
+        if(nbSomVisite < n){
+            s = somSuivant(s,n,visite);
+            i = s;
+        }else{
+            finParcours = 1;
+        }
+    }
+    for(int i =0; i<n;i++){
+        (pereConnexes[i])?printf("le %d eme sommet forme une composante connexe que voici\n",i+1),afficheMatAdj(ret[i]):printf("le %d eme sommet ne forme pas de composante fortement connexe partant de lui\n",i+1);
+    }
 }

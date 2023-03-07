@@ -18,6 +18,7 @@ MatIncidColCol creerMatIncidColColFichier(FILE *fd){
 MatIncidColCol res;
 int nbSommets, nbArcs, i, j, garbage;
 
+    fseek(fd, SEEK_SET, 0);
     fscanf(fd,"\n#Description du graphe");
     fscanf(fd,"\nnbSom = %d", &nbSommets);
     fscanf(fd,"\nnbArcs = %d",&nbArcs);
