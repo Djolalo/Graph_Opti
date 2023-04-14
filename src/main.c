@@ -118,11 +118,15 @@ int main(void){
         return 1;
     }
     ListeAdj la = creerListeAdjFichier(fd);
-    MatAdj g = creerMatAdjFichier(fd);
+    afficheListeAdj(la);
+    parcoursProfondeurListeAdj(la,1);
+
     fclose(fd);
-    estSansBoucle(g)?puts("le graphe ne comporte pas de boucle")  :puts("le graphe comporte une boucle");  
-    parcoursProfondeurMatAdj(0,g);
-    puts("______________________________________________");
-    determinerComposantesConnexes(0, g);
+    //afficheListeAdj(la);
+    puts("matadj créée");
+    //printf("%d\n", estSansBoucle(g));
+    //ListeAdj res = carreListeAdj(la);
+    //afficheListeAdj(res);
+
     return 0;
 }
